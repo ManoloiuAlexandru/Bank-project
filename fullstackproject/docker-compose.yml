@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  fullstack:
+    build:
+      context: .
+      dockerfile: Dockerfilemain
+    container_name: fullstack
+    ports:
+      - "5001:5001"
+    volumes:
+      - .:/app
+    command: uvicorn backend.main:app --host 0.0.0.0 --port 5001 --reload
+
+
+  react:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: react
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      # Vite dev server proxy uses this to reach FastAPI inside Docker
+      - INTERNAL_API_URL=http://fullstack:5001
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
