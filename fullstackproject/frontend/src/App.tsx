@@ -31,11 +31,6 @@ const App: React.FC = () => {
           Simple accounts, transparent rates, and industry-grade security —
           thoughtfully designed for everyday finance.
         </p>
-
-        {/* Optional "Contact Us" button */}
-        <Link to="/contact">
-          <button className="sc-hero-button">Contact Us</button>
-        </Link>
       </section>
 
       {/* Footer */}
