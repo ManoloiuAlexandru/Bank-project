@@ -1,9 +1,16 @@
-from fastapi import FastAPI,Request,Form
-from starlette.responses import HTMLResponse
+from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
+
 app = FastAPI()
+templates = Jinja2Templates(directory="../frontend")
 
-@app.get("/")
-async def home():
-    return {"message": "Hello from FastAPI!"}
 
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.get("/contact", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})

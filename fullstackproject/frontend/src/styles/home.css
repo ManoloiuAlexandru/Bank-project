@@ -1,0 +1,59 @@
+/* General */
+body {
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+.sc-header {
+  background-color: #0a3d62;
+  color: white;
+  padding: 20px;
+}
+
+.sc-header .sc-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sc-brand h1 {
+  margin: 0;
+}
+
+.sc-brand small {
+  display: block;
+  font-size: 0.9rem;
+  color: #dcdde1;
+}
+
+.sc-nav span {
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+/* Hero */
+.sc-hero {
+  text-align: center;
+  padding: 100px 20px;
+  background-color: #f5f6fa;
+}
+
+.sc-hero h2 {
+  margin-bottom: 20px;
+}
+
+.sc-hero p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Footer */
+.sc-footer {
+  background-color: #0a3d62;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
