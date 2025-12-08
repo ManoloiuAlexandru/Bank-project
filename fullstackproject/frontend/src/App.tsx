@@ -31,6 +31,10 @@ const App: React.FC = () => {
           Simple accounts, transparent rates, and industry-grade security —
           thoughtfully designed for everyday finance.
         </p>
+        {/* Button to navigate to AddUser page */}
+        <Link to="/add_user">
+          <button className="sc-hero-button">Join Us</button>
+        </Link>
       </section>
 
       {/* Footer */}

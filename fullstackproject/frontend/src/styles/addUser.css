@@ -1,0 +1,93 @@
+/* General container */
+.add-user-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6b73ff, #000dff);
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+}
+
+/* Card wrapper */
+.form-card {
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.3s ease;
+}
+
+.form-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Title */
+.title {
+  text-align: center;
+  color: #333333;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+}
+
+/* Form styles */
+.add-user-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.add-user-form label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.add-user-form input {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.add-user-form input:focus {
+  border-color: #6b73ff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(107, 115, 255, 0.5);
+}
+
+/* Button */
+.submit-button {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-radius: 10px;
+  background: #6b73ff;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.submit-button:hover {
+  background: #000dff;
+  transform: translateY(-2px);
+}
+
+/* Status message */
+.status {
+  text-align: center;
+  margin-top: 15px;
+  font-weight: 500;
+  color: #ff4d4d; /* red for errors by default */
+}
+
+/* Optional: success color */
+.status:contains("success") {
+  color: #28a745;
+}

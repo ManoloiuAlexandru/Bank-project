@@ -9,7 +9,30 @@ services:
       - "5001:5001"
     volumes:
       - .:/app
+    depends_on:
+      - postgres
+    working_dir: /app
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: snekkbank
+
     command: uvicorn backend.main:app --host 0.0.0.0 --port 5001 --reload
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_USER: admin
+      POSTGRES_DB: snekkbank
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
 
   react:
     build:
@@ -24,3 +47,5 @@ services:
     environment:
       # Vite dev server proxy uses this to reach FastAPI inside Docker
       - INTERNAL_API_URL=http://fullstack:5001
+volumes:
+  pg_data:
