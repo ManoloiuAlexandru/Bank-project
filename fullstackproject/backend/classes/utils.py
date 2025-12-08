@@ -10,9 +10,9 @@ def get_all_users(db):
 
 async def check_message(name, email, message, db):
     await time_test()
-    print(get_all_users(db))
-    if message != "":
-        return "ceva"
+    for user in get_all_users(db):
+        if user.last_name == name.split()[1] and user.first_name == name.split()[0] and user.email == email:
+            return "You need to register first"
 
 
 async def time_test():
