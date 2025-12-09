@@ -11,8 +11,13 @@ def get_all_users(db):
 async def check_message(name, email, message, db):
     await time_test()
     for user in get_all_users(db):
-        if user.last_name == name.split()[1] and user.first_name == name.split()[0] and user.email == email:
-            return "You need to register first"
+        try:
+            if user.last_name == name.split()[1] and user.first_name == name.split()[0] and user.email == email:
+                return "We will contact you soon"
+        except Exception as e:
+            print(e)
+            return "You have to put your full name"
+    return "You need to be registered for us to contact you"
 
 
 async def time_test():

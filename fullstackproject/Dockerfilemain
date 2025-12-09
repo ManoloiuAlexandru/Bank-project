@@ -13,3 +13,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the app
 COPY . .
 
+# Run tests when the container builds
+RUN pytest --maxfail=1 --disable-warnings
+

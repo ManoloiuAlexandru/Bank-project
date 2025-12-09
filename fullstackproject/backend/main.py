@@ -48,4 +48,4 @@ def add_user(
 
 @app.post("/contactForm")
 async def contact_form(requester_name=Form(...), email=Form(...), message=Form(...), db: Session = Depends(get_db)):
-    return {"request": await check_message(requester_name, email, message, db)}
+    return {"result": await check_message(requester_name, email, message, db)}

@@ -11,3 +11,4 @@ python-jose[cryptography]
 psycopg2-binary
 prometheus-client
 prometheus-fastapi-instrumentator
+pytest
