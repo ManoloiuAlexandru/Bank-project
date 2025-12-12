@@ -19,7 +19,7 @@ services:
       POSTGRES_PASSWORD: admin123
       POSTGRES_DB: snekkbank
 
-    command: uvicorn backend.main:app --host 0.0.0.0 --port 5001 --reload
+    command: sh -c " pytest --maxfail=1 --disable-warnings && uvicorn backend.main:app --host 0.0.0.0 --port 5001 --reload"
 
   postgres:
     image: postgres:16
