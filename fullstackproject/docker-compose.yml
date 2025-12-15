@@ -34,6 +34,40 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
 
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true" # fixes memory issues sometimes
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+  tests-and-sonar:
+    build:
+      context: backend\\tests
+      dockerfile: Dockerfile
+    container_name: tests-and-sonar
+    working_dir: /app
+    environment:
+      PYTHONPATH: /app
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: snekkbank
+    volumes:
+      - .:/app
+    depends_on:
+      - fullstack
+      - sonarqube
+    command: tail -f /dev/null
+
+
+
   react:
     build:
       context: ./frontend
