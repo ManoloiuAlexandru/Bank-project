@@ -62,3 +62,48 @@ def test_server_fail_wrong_format():
     }
     response = client.post("/contactForm", data=payload)
     assert response.status_code == 422
+
+def test_add_new_user():
+    payload = {
+        "first_name": "Ion",
+        "last_name": "Vasile",
+        "date_of_birth": "1997-12-10",
+        "nationality": "Romanian",
+        "phone_number": "+40743287546",
+        "address": "Str. Valea Rajnitelor",
+        "email": "ada@example.com"
+    }
+
+    response = client.post("/add_user", json=payload)
+
+    assert response.status_code == 200
+
+def test_fail_to_add_new_user():
+    payload = {
+        "first_name": "Ion",
+        "last_name": "Vasile",
+        "date_of_birth": "1997-12-10",
+        "nationality": "Romanian",
+        "phone_number": "+407432",
+        "address": "Str. Valea Rajnitelor",
+        "email": "ada@example.com"
+    }
+
+    response = client.post("/add_user", json=payload)
+
+    assert response.status_code == 422
+
+def test_fail_to_add_new_user_wrong_number():
+    payload = {
+        "first_name": "Ion",
+        "last_name": "Vasile",
+        "date_of_birth": "1997-12-10",
+        "nationality": "Romanian",
+        "phone_number": "0965748390085",
+        "address": "Str. Valea Rajnitelor",
+        "email": "ada@example.com"
+    }
+
+    response = client.post("/add_user", json=payload)
+
+    assert response.status_code == 422

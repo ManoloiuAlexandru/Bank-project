@@ -11,6 +11,7 @@ services:
       - .:/app
     depends_on:
       - postgres
+      - rabbitmq
     working_dir: /app
     environment:
       POSTGRES_HOST: postgres
@@ -18,7 +19,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
       POSTGRES_DB: snekkbank
-
+      RABBITMQ_URL: amqp://${RABBITMQ_USER:-devuser}:${RABBITMQ_PASS:-devpass123}@rabbitmq:5672/
     command: sh -c " pytest --maxfail=1 --disable-warnings && uvicorn backend.main:app --host 0.0.0.0 --port 5001 --reload"
 
   postgres:
@@ -46,25 +47,25 @@ services:
         soft: 65536
         hard: 65536
 
-  tests-and-sonar:
-    build:
-      context: backend\\tests
-      dockerfile: Dockerfile
-    container_name: tests-and-sonar
-    working_dir: /app
-    environment:
-      PYTHONPATH: /app
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: snekkbank
-    volumes:
-      - .:/app
-    depends_on:
-      - fullstack
-      - sonarqube
-    command: tail -f /dev/null
+#  tests-and-sonar:
+#    build:
+#      context: backend\\tests
+#      dockerfile: Dockerfile
+#    container_name: tests-and-sonar
+#    working_dir: /app
+#    environment:
+#      PYTHONPATH: /app
+#      POSTGRES_HOST: postgres
+#      POSTGRES_PORT: 5432
+#      POSTGRES_USER: admin
+#      POSTGRES_PASSWORD: admin123
+#      POSTGRES_DB: snekkbank
+#    volumes:
+#      - .:/app
+#    depends_on:
+#      - fullstack
+#      - sonarqube
+#    command: tail -f /dev/null
 
 
 
@@ -81,5 +82,48 @@ services:
     environment:
       # Vite dev server proxy uses this to reach FastAPI inside Docker
       - INTERNAL_API_URL=http://fullstack:5001
+
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"     # AMQ
+      - "15672:15672"   # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-guest}
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE:-secretcookie}
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfilemain
+    container_name: worker
+    depends_on:
+      postgres:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+    working_dir: /app
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: snekkbank
+      RABBITMQ_URL: amqp://${RABBITMQ_USER:-devuser}:${RABBITMQ_PASS:-devpass123}@rabbitmq:5672/
+    command: python backend/worker_main.py
+
+
 volumes:
   pg_data:
+  rabbitmq-data:

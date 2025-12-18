@@ -12,3 +12,4 @@ psycopg2-binary
 prometheus-client
 prometheus-fastapi-instrumentator
 pytest
+aio-pika==9.4.3
