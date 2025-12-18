@@ -47,25 +47,25 @@ services:
         soft: 65536
         hard: 65536
 
-#  tests-and-sonar:
-#    build:
-#      context: backend\\tests
-#      dockerfile: Dockerfile
-#    container_name: tests-and-sonar
-#    working_dir: /app
-#    environment:
-#      PYTHONPATH: /app
-#      POSTGRES_HOST: postgres
-#      POSTGRES_PORT: 5432
-#      POSTGRES_USER: admin
-#      POSTGRES_PASSWORD: admin123
-#      POSTGRES_DB: snekkbank
-#    volumes:
-#      - .:/app
-#    depends_on:
-#      - fullstack
-#      - sonarqube
-#    command: tail -f /dev/null
+  tests-and-sonar:
+    build:
+      context: backend\\tests
+      dockerfile: Dockerfile
+    container_name: tests-and-sonar
+    working_dir: /app
+    environment:
+      PYTHONPATH: /app
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: snekkbank
+    volumes:
+      - .:/app
+    depends_on:
+      - fullstack
+      - sonarqube
+    command: tail -f /dev/null
 
 
 
@@ -91,8 +91,8 @@ services:
       - "5672:5672"     # AMQ
       - "15672:15672"   # Management UI
     environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-guest}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-devuser}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-devpass123}
       RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE:-secretcookie}
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq

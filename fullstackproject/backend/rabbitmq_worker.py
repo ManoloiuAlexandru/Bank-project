@@ -7,12 +7,14 @@ from aio_pika.abc import AbstractRobustConnection, AbstractRobustChannel, Abstra
 
 RABBITMQ_URL = os.getenv("RABBITMQ_URL", "amqp://devuser:devpass123@rabbitmq:5672/")
 EXCHANGE_NAME = "app.events"
-QUEUE_NAME = "app.worker.queue"     # worker's queue name
+QUEUE_NAME = "app.worker.queue"  # worker's queue name
 BINDINGS = [
     ("user.created", "user.created"),
     ("contact.message", "contact.message"),
+    ("demo.test", "demo")
     # add more bindings as you create more event types
 ]
+
 
 class RabbitWorker:
     def __init__(self):

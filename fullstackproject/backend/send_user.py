@@ -13,7 +13,7 @@ async def main():
     # Send a test message
     payload = "alex123"
     msg = Message(payload.encode())
-    await exchange.publish(msg, routing_key="user.created")
+    await exchange.publish(msg, routing_key="demo")
     print(f"Message sent: {payload}")
 
     await conn.close()
